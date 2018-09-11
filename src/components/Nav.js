@@ -1,52 +1,67 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
+import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import MenuItem from '@material-ui/core/MenuItem';
+import Menu from '@material-ui/core/Menu';
 
+const styles = {
+    grow: {
+        flexGrow: 1,
+    }
+};
 
-export default class Nav extends Component {
-    
+class Nav extends React.Component {
     state = {
-        open: false,
-        anchorEl: null
-    }
+        anchorEl: null,
+    };
 
-    handleOpen = (event) => {
-        this.setState({
-            open: true,
-            anchorEl: event.currentTarget
-        })
-    }
+    handleMenu = event => {
+        this.setState({ anchorEl: event.currentTarget });
+    };
 
     handleClose = () => {
-        this.setState({
-            open: false,
-            anchorEl: null
-        })
-    }
+        this.setState({ anchorEl: null });
+    };
 
     render() {
         return (
-            <AppBar>
+            <AppBar position="static">
                 <Toolbar>
-                    <h1>Health Center</h1>
+                    <Typography variant="title" color="inherit" className={this.props.classes.grow}>
+                        Health Center
+            </Typography>
                     <Button
-                        onClick={this.handleOpen}
+                        aria-owns={Boolean(this.state.anchorEl) ? 'menu-appbar' : null}
+                        aria-haspopup="true"
+                        onClick={this.handleMenu}
+                        color="inherit"
                     >
                         Get Started
-                    </Button>
+            </Button>
                     <Menu
+                        id="menu-appbar"
                         anchorEl={this.state.anchorEl}
-                        open={this.state.open}
+                        anchorOrigin={{
+                            vertical: 'top',
+                            horizontal: 'right',
+                        }}
+                        transformOrigin={{
+                            vertical: 'top',
+                            horizontal: 'right',
+                        }}
+                        open={Boolean(this.state.anchorEl)}
                         onClose={this.handleClose}
                     >
-                        <MenuItem onClick={this.handleCLose}>Log In</MenuItem>
-                        <MenuItem onClick={this.handleCLose}>Sign Up</MenuItem>
+                        <MenuItem onClick={this.handleClose}>Log In</MenuItem>
+                        <MenuItem onClick={this.handleClose}>Sign Up</MenuItem>
                     </Menu>
                 </Toolbar>
             </AppBar>
-        )
+        );
     }
 }
+
+export default withStyles(styles)(Nav);
