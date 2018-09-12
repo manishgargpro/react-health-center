@@ -9,9 +9,9 @@ class App extends Component {
   render() {
     return (
       <MuiThemeProvider theme={Theme}>
-        <Nav/>
+        <Nav />
       </MuiThemeProvider>
-      
+
     );
   }
 }
